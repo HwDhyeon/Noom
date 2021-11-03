@@ -9,6 +9,13 @@ room.hidden = true;
 
 let roomName;
 
+const addMessage = (message) => {
+  const ul = room.querySelector('ul');
+  const li = document.createElement('li');
+  li.innerText = message;
+  ul.appendChild(li);
+};
+
 const showRoom = () => {
   welcome.hidden = true;
   room.hidden = false;
@@ -16,12 +23,16 @@ const showRoom = () => {
   h3.innerText = `Room: ${roomName}`;
 };
 
-const handleEnterRoom = (evnet) => {
+const handleEnterRoom = (event) => {
   event.preventDefault();
   const input = form.querySelector('input');
   roomName = input.value;
   input.value = '';
-  socket.emit('enter_room', { payload: roomName }, showRoom);
+  socket.emit('enter_room', roomName, showRoom);
 };
 
 form.addEventListener('submit', handleEnterRoom);
+
+socket.on('welcome', () => {
+  addMessage('User is joined!');
+});

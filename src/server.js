@@ -21,8 +21,10 @@ const io = SocketIO(server);
 
 io.on('connection', (socket) => {
   socket.on('enter_room', (roomName, done) => {
+    console.log(roomName);
     socket.join(roomName);
     done();
+    socket.to(roomName).emit('welcome');
   });
 });
 
