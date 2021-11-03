@@ -1,6 +1,6 @@
 import express from 'express';
 import { createServer } from 'http';
-import { WebSocketServer } from 'ws';
+import SocketIO from 'socket.io';
 import { fromJSON } from './utils';
 
 const app = express();
@@ -17,33 +17,12 @@ app.get('/*', (req, res) => {
 });
 
 const server = createServer(app);
-const wss = new WebSocketServer({ server });
+const io = SocketIO(server);
 
-const sockets = [];
-
-wss.on('connection', (socket, req) => {
-  sockets.push(socket);
-  socket['nickname'] = 'John';
-  console.log(`Connected from Client ✨`);
-  socket.on('close', () => {
-    console.log('Disconnected from Client 😥');
-  });
-  socket.on('message', (message) => {
-    const data = fromJSON(message);
-    switch (data.type) {
-      case 'message':
-        console.log(`Get message from Client (${data.payload})`);
-        sockets.forEach((currentSocket) => {
-          currentSocket.send(`${socket.nickname}: ${data.payload.toString()}`);
-        });
-        break;
-      case 'nickname':
-        socket['nickname'] = data.payload;
-        break;
-    }
+io.on('connection', (socket) => {
+  socket.on('enter_room', (msg) => {
+    console.log(msg);
   });
 });
 
-server.listen(3000, () => {
-  console.log(`Listening on http://127.0.0.1:3000/ and ws://127.0.0.1:3000/`);
-});
+server.listen(3000);
