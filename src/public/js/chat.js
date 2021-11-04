@@ -4,26 +4,40 @@ const user = JSON.parse(localStorage.getItem('user'));
 const menu = document.querySelector('main.menu');
 
 const createRoomForm = document.querySelector('#room-create');
-const roomList = document.querySelector('.room-list table > tbody');
+const roomList = document.querySelector('.room-list');
+const roomListTable = roomList.querySelector('table > tbody');
 const chatting = document.querySelector('.chatting');
+
+const roomNameText = document.querySelector('.room-name');
 
 const messageForm = document.querySelector('.send-message');
 const messageList = document.querySelector('.message');
 
 chatting.hidden = true;
+roomList.hidden = true;
 
 let roomNumber = 0;
 let roomName = '';
 
 const showRoom = () => {
-  const roomNameText = document.querySelector('.room-name');
   roomNameText.innerText = `Room: #${roomName}`;
   menu.hidden = true;
   chatting.hidden = false;
 };
 
-const enterRoom = () => {
-  console.log('Enter!');
+const showRoomList = () => (roomList.hidden = false);
+const hideRoomList = () => (roomList.hidden = true);
+
+const cleanRoomList = () => {
+  roomListTable.innerHTML = '';
+};
+
+const enterRoom = (event) => {
+  const td = event.target.parentNode;
+  const tr = td.parentNode;
+  const name = tr.querySelector('.name');
+  roomName = name.innerText;
+  socket.emit('enter_room', roomName, user.id, showRoom);
 };
 
 const createNewRoom = (roomName, roomHost, roomUsers) => {
@@ -51,11 +65,7 @@ const createNewRoom = (roomName, roomHost, roomUsers) => {
 
   [number, name, host, users, enter].forEach((td) => tr.appendChild(td));
 
-  roomList.appendChild(tr);
-};
-
-const showRoomList = (rooms) => {
-  rooms.forEach((room) => createNewRoom('Hi', 'Admin', '0/15'));
+  roomListTable.appendChild(tr);
 };
 
 const createMessage = (message) => {
@@ -88,17 +98,23 @@ const handleMessageSubmit = (event) => {
 createRoomForm.addEventListener('submit', handleCreateRoom);
 messageForm.addEventListener('submit', handleMessageSubmit);
 
-socket.on('connected', (rooms) => {
-  console.log(rooms);
-  showRoomList(Array.from(rooms));
-});
-
-socket.on('welcome', (user) => {
+socket.on('welcome', (user, count) => {
+  roomNameText.innerText = `Room: #${roomName} ${count}`;
   createMessage(`${user} joined!`);
 });
 
-socket.on('bye', (user) => {
+socket.on('bye', (user, count) => {
+  roomNameText.innerText = `Room: #${roomName} ${count}`;
   createMessage(`${user} left 😥`);
 });
 
 socket.on('new_message', createMessage);
+socket.on('room_changed', (rooms) => {
+  if (rooms.length) {
+    showRoomList();
+    rooms.forEach((room) => createNewRoom(room, 'Admin', '0/15'));
+  } else {
+    cleanRoomList();
+    hideRoomList();
+  }
+});

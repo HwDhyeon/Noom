@@ -15,21 +15,22 @@ html(lang="ko")
                     form#room-create
                         input(type="text", placeholder="Enter Room name...", required) 
                         button(type="submit") Create
-            //- hr
-            //- section 
-            //-     header
-            //-         h2 Or Enter Room    
-            //- div.room-list
-            //-     h1 Room List
-            //-     div.list
-            //-         table
-            //-             thead
-            //-             th #
-            //-             th Name
-            //-             th Host
-            //-             th Users
-            //-             th
-            //-         tbody
+            div.room-list
+                hr
+                section 
+                    header
+                        h2 Or Enter Room
+                div.rooms
+                    h1 Room List
+                    div.list
+                        table
+                            thead
+                            th #
+                            th Name
+                            th Host
+                            th Users
+                            th
+                        tbody
 
         include ../components/chatting.pug
 
