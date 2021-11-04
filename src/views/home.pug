@@ -1,24 +1,35 @@
 doctype html
 html(lang="ko")
+    include ../components/head.pug
     head
-        meta(charset="UTF-8")
-        meta(http-equiv="X-UA-Compatible", content="IE=edge")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Noom
-        link(rel="stylesheet", href="https://unpkg.com/mvp.css")
     body
         header
-            h1 Noom
-        main
-            div#welcome
-                form
-                    input(type="text", placeholder="Room", required)
-                    button(type="submit") Enter
-            div#room
-                h3
-                ul 
-                form
-                    input(type="text", placeholder="message...", required)
-                    button(type="submit") Send
-        script(src="/socket.io/socket.io.js")
-        script(src="/public/js/app.js")
+            include ../components/header.pug
+            image(src="/public/images/home/main.svg")
+            h1 Welcome to the Noom!
+            p Millions of people around the world are already using Noom.
+        main 
+            hr
+            section
+                header 
+                    h2 Be with people.
+                aside
+                    image(src="/public/images/home/aside-web.svg")
+                    h3 Only Web
+                    p You can use the wonderful features we offer only through our website.
+                aside 
+                    image(src="/public/images/home/aside-free.svg")
+                    h3 Free for everyone
+                    p Our services are free for anyone to use.
+                aside
+                    image(src="/public/images/home/aside-wherever.svg")
+                    h3 Wherever
+                    p It doesn't matter where you are or what you are doing. With Noom, we can connect with each other as if we were right next to each other.
+            hr                   
+            section
+                header
+                    h2 It is definitely a wonderful experience to be with us.
+                button.getting-started Getting Started
+        script(src="/public/js/home.js")
+        include ../components/footer.pug

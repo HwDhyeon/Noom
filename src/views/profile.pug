@@ -1,0 +1,19 @@
+doctype html
+html(lang="ko")
+    include ../components/head.pug
+    head
+        title Noom
+        style
+            include ../public/css/profile.css
+    body
+        header
+            include ../components/header.pug
+        main
+            h1 Username
+            p.username
+            section
+                button.logout Logout
+
+        script(src="/public/js/profile.js")
+
+    include ../components/footer.pug

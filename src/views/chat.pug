@@ -1,0 +1,23 @@
+doctype html
+html(lang="ko")
+    include ../components/head.pug
+    head
+        title Noom | Chat
+    body
+        header
+            include ../components/header.pug
+        main
+            div#welcome
+                form
+                    input(type="text", placeholder="Room", required)
+                    button(type="submit") Enter
+            div#room
+                h3
+                ul 
+                form
+                    input(type="text", placeholder="message...", required)
+                    button(type="submit") Send
+
+        script(src="/socket.io/socket.io.js")
+        script(src="/public/js/app.js")
+        include ../components/footer.pug

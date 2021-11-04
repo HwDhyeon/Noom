@@ -1,0 +1,22 @@
+doctype html
+html(lang="ko")
+    include ../components/head.pug
+    head
+        title Noom | Login
+        style
+            include ../public/css/login.css
+    body
+        header
+            image(src="/public/images/login/main.svg")
+            h1 Welcome to Noom
+        main
+            form
+                label(for="userid") User ID
+                input#userid(type="text", placeholder="User id", required)
+
+                label(for="userpass") User Password
+                input#userpass(type="password", placeholder="Password", required)
+
+                button(type="submit") Login to Noom
+
+        script(src="/public/js/login.js")

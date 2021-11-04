@@ -1,0 +1,19 @@
+form {
+  margin: 0 auto;
+  width: 100%;
+}
+
+label {
+  margin-left: 3px;
+  margin-bottom: 10px;
+}
+
+input {
+  width: 96%;
+  height: 30px;
+  margin-bottom: 30px;
+}
+
+button {
+  width: 100%;
+}
