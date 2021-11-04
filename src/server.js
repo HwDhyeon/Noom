@@ -35,16 +35,21 @@ const server = createServer(app);
 const io = SocketIO(server);
 
 io.on('connection', (socket) => {
-  socket.on('enter_room', (roomName, done) => {
+  socket['nickname'] = 'Mr.';
+
+  socket.on('enter_room', (roomName, nickname, done) => {
     socket.join(roomName);
+    socket['nickname'] = nickname;
     done();
-    socket.to(roomName).emit('welcome');
+    socket.to(roomName).emit('welcome', socket.nickname);
   });
   socket.on('disconnecting', () => {
-    socket.rooms.forEach((room) => socket.to(room).emit('bye'));
+    socket.rooms.forEach((room) =>
+      socket.to(room).emit('bye', socket.nickname),
+    );
   });
   socket.on('new_message', (msg, room, done) => {
-    socket.to(room).emit('new_message', msg);
+    socket.to(room).emit('new_message', `${socket.nickname} > ${msg}`);
     done();
   });
 });

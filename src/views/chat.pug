@@ -3,21 +3,36 @@ html(lang="ko")
     include ../components/head.pug
     head
         title Noom | Chat
+        style
+            include ../public/css/chat.css
     body
         header
             include ../components/header.pug
-        main
-            div#welcome
-                form
-                    input(type="text", placeholder="Room", required)
-                    button(type="submit") Enter
-            div#room
-                h3
-                ul 
-                form
-                    input(type="text", placeholder="message...", required)
-                    button(type="submit") Send
+        main.menu
+            section
+                header 
+                    h2 Create a New Room
+                    form#room-create
+                        input(type="text", placeholder="Enter Room name...", required) 
+                        button(type="submit") Create
+            //- hr
+            //- section 
+            //-     header
+            //-         h2 Or Enter Room    
+            //- div.room-list
+            //-     h1 Room List
+            //-     div.list
+            //-         table
+            //-             thead
+            //-             th #
+            //-             th Name
+            //-             th Host
+            //-             th Users
+            //-             th
+            //-         tbody
+
+        include ../components/chatting.pug
 
         script(src="/socket.io/socket.io.js")
-        script(src="/public/js/app.js")
+        script(src="/public/js/chat.js")
         include ../components/footer.pug
