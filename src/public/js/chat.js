@@ -1,4 +1,4 @@
-const socket = io();
+// const socket = io();
 const user = JSON.parse(localStorage.getItem('user'));
 
 const menu = document.querySelector('main.menu');
@@ -82,7 +82,7 @@ const handleCreateRoom = (event) => {
   const input = createRoomForm.querySelector('input');
   roomName = input.value;
   input.value = '';
-  socket.emit('enter_room', roomName, user.id, showRoom);
+  socket.emit('enter_chatting_room', roomName, user.id, showRoom);
 };
 
 const handleMessageSubmit = (event) => {

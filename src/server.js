@@ -20,6 +20,10 @@ app.get('/chat', (req, res) => {
   res.render('chat');
 });
 
+app.get('/meeting', (req, res) => {
+  res.render('meeting');
+});
+
 app.get('/login', (req, res) => {
   res.render('login');
 });
@@ -69,12 +73,16 @@ io.on('connection', (socket) => {
   socket['nickname'] = 'Mr.';
   io.sockets.emit('room_changed', publicRooms());
 
-  socket.on('enter_room', (roomName, nickname, done) => {
+  socket.on('enter_chatting_room', (roomName, nickname, done) => {
     socket.join(roomName);
     socket['nickname'] = nickname;
     done();
     socket.to(roomName).emit('welcome', socket.nickname, countRoom(roomName));
     io.sockets.emit('room_changed', publicRooms());
+  });
+  socket.on('enter_meeting_room', (roomName, done) => {
+    socket.join(roomName);
+    done();
   });
   socket.on('disconnecting', () => {
     socket.rooms.forEach((room) =>

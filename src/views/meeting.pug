@@ -1,0 +1,21 @@
+doctype html
+html(lang="ko")
+    include ../components/head.pug
+    head
+        title Noom
+    body
+        header
+            include ../components/header.pug
+        main
+            div#welcome
+                form
+                    input(type="text", placeholder="Room name", required)
+                    button(type="submit") Enter
+            div#call
+                div#my-stream
+                    video#my-face(autoplay, playsinline, width="400", height="400") 
+                    button#mute Mute
+                    button#camera Turn Camera Off
+                    select#cameras
+        script(src="/public/js/meeting.js")
+        include ../components/footer.pug
