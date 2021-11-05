@@ -15,6 +15,7 @@ call.hidden = true;
 let roomName;
 
 let myStream;
+let myPeerConnection;
 let muted = false;
 let cameraOff = false;
 
@@ -55,10 +56,11 @@ const getMedia = async (deviceId) => {
   }
 };
 
-const startMedia = () => {
+const startMedia = async () => {
   welcome.hidden = true;
   call.hidden = false;
-  getMedia();
+  await getMedia();
+  makeConnection();
 };
 
 const handleEnterRoom = (event) => {
@@ -101,3 +103,23 @@ welcomeForm.addEventListener('submit', handleEnterRoom);
 muteBtn.addEventListener('click', handleMuteBtnClick);
 cameraBtn.addEventListener('click', handleCameraBtnClick);
 cameraSelect.addEventListener('input', handleCameraChange);
+
+// Socket Code
+socket.on('welcome', async () => {
+  const offer = await myPeerConnection.createOffer();
+  myPeerConnection.setLocalDescription(offer);
+  socket.emit('offer', offer, roomName);
+});
+
+socket.on('offer', (offer) => {
+  console.log(offer);
+});
+
+/// RTC Code
+
+const makeConnection = () => {
+  myPeerConnection = new RTCPeerConnection();
+  myStream
+    .getTracks()
+    .forEach((track) => myPeerConnection.addTrack(track, myStream));
+};

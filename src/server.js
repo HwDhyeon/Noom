@@ -83,6 +83,7 @@ io.on('connection', (socket) => {
   socket.on('enter_meeting_room', (roomName, done) => {
     socket.join(roomName);
     done();
+    socket.to(roomName).emit('welcome');
   });
   socket.on('disconnecting', () => {
     socket.rooms.forEach((room) =>
@@ -95,6 +96,9 @@ io.on('connection', (socket) => {
   socket.on('new_message', (msg, room, done) => {
     socket.to(room).emit('new_message', `${socket.nickname} > ${msg}`);
     done();
+  });
+  socket.on('offer', (offer, roomName) => {
+    socket.to(roomName).emit('offer', offer);
   });
 });
 
