@@ -102,8 +102,11 @@ io.on('connection', (socket) => {
   socket.on('answer', (answer, roomName) => {
     socket.to(roomName).emit('answer', answer);
   });
+  socket.on('ice', (ice, roomName) => {
+    socket.to(roomName).emit('ice', ice);
+  });
 });
 
-server.listen(PORT, HOST, () => {
+server.listen(PORT, () => {
   console.log(`HTTP Server is running on http://127.0.0.1:${PORT}/`);
 });
