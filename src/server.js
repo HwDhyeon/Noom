@@ -80,9 +80,8 @@ io.on('connection', (socket) => {
     socket.to(roomName).emit('welcome', socket.nickname, countRoom(roomName));
     io.sockets.emit('room_changed', publicRooms());
   });
-  socket.on('enter_meeting_room', (roomName, done) => {
+  socket.on('enter_meeting_room', (roomName) => {
     socket.join(roomName);
-    done();
     socket.to(roomName).emit('welcome');
   });
   socket.on('disconnecting', () => {
@@ -99,6 +98,9 @@ io.on('connection', (socket) => {
   });
   socket.on('offer', (offer, roomName) => {
     socket.to(roomName).emit('offer', offer);
+  });
+  socket.on('answer', (answer, roomName) => {
+    socket.to(roomName).emit('answer', answer);
   });
 });
 
